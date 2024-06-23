@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Cliente</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Cadastro de Clientes</h1>
+    </header>
+    
+    <main>
+        <form id="formCadastroCliente">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario" name="usuario" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" required>
+
+            <label for="rg">RG:</label>
+            <input type="text" id="rg" name="rg" required>
+
+            <label for="valor">Valor (R$):</label>
+            <input type="number" id="valor" name="valor" step="0.01" required>
+            
+            <label for="horas">Horas Calculadas:</label>
+            <input type="text" id="horas" name="horas" readonly>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+    </main>
+
+    <script>
+        $(document).ready(function(){
+            function calcularHoras(valor) {
+                if (valor >= 50) return 48;
+                if (valor >= 20) return 11;
+                if (valor >= 10) return 5;
+                if (valor >= 5) return 2;
+                if (valor >= 3) return 1;
+                return (valor / 3).toFixed(2); // Para valores inferiores a R$3,00
+            }
+
+            $('#valor').on('input', function(){
+                var valor = parseFloat($(this).val()) || 0;
+                var horas = calcularHoras(valor);
+                $('#horas').val(horas);
+            });
+
+            $('#formCadastroCliente').submit(function(e){
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: '/cadastrar_cliente',
+                    method: 'POST',
+                    data: formData,
+                    success: function(response){
+                        alert('Cliente cadastrado com sucesso!');
+                        // Redirecionar ou atualizar a página conforme necessário
+                    },
+                    error: function(xhr, status, error){
+                        alert('Erro ao cadastrar cliente: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

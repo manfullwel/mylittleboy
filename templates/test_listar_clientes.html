@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Listar Clientes</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/cadastrar_cliente">Cadastrar Cliente</a></li>
+            <li><a href="/clientes">Listar Clientes</a></li>
+        </ul>
+    </nav>
+    <div id="content">
+        <h1>Teste Lista de Clientes</h1>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Usuário</th>
+                <th>Telefone</th>
+                <th>RG</th>
+                <th>Horas</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+            <tr>
+                <td>Cliente Teste</td>
+                <td>cliente_teste</td>
+                <td>123456789</td>
+                <td>123456789</td>
+                <td>0</td>
+                <td>10.0</td>
+                <td>
+                    <form action="/editar_cliente" method="get" style="display:inline;">
+                        <input type="hidden" name="usuario" value="cliente_teste">
+                        <button type="submit">Editar</button>
+                    </form>
+                    <form action="/deletar_cliente" method="post" style="display:inline;">
+                        <input type="hidden" name="usuario" value="cliente_teste">
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

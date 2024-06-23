@@ -1,19 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
+    <meta charset="UTF-8">
+    <title>Lanhouse SDAW STAR</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
 <body>
-    <div class="App">
-        <header class="App-header">
-            <img src="{{ url_for('static', filename='Octocat.png') }}" class="App-logo" alt="logo" />
-            <p>
-                GitHub Codespaces <span class="heart">♥️</span> Flask
-            </p>
-            <p class="small">
-                Edit <code>templates/index.html</code> and refresh to see your changes!
-            </p>
-        </header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/cadastrar_cliente">Cadastrar Cliente</a></li>
+            <li><a href="#" id="listarClientesLink">Listar Clientes</a></li>
+        </ul>
+    </nav>
+    <div id="content">
+        <h1>Bem-vindo à Lanhouse SDAW STAR</h1>
     </div>
-</body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#listarClientesLink').click(function(e){
+                e.preventDefault();
+                $.get('/listar_clientes', function(data){
+                    var clientes = data.clientes;
+                    var content = '<h2>Lista de Clientes</h2>';
+                    if (clientes.length > 0) {
+                        content += '<table>';
+                        content += '<tr><th>Nome</th><th>Usuário</th><th>Telefone</th><th>RG</th><th>Horas</th><th>Valor</th><th>Ações</th></tr>';
+                        $.each(clientes, function(index, cliente){
+                            content += '<tr>';
+                            content += '<td>' + cliente.nome + '</td>';
+                            content += '<td>' + cliente.usuario + '</td>';
+                            content += '<td>' + cliente.telefone + '</td>';
+                            content += '<td>' + cliente.rg + '</td>';
+                            content += '<td>' + cliente.horas + '</td>';
+                            content += '<td>' + cliente.valor + '</td>';
+                            content += '<td>';
+                            content += '<button class="edit-button" data-id="' + cliente.id + '">Editar</button>';
+                            content += '<button class="delete-button" data-id="' + cliente.id + '">Deletar</button>';
+                            content += '</td>';
+                            content += '</tr>';
+                        });
+                        content += '</table>';
+                    } else {
+                        content += '<p>Nenhum cliente encontrado.</p>';
+                    }
+                    $('#content').html(content);
+                }).fail(function(xhr){
+                    $('#content').html('<p>Erro ao carregar clientes.</p>').css('color', 'red');
+                });
+            });
 
+            // Event delegation for dynamically created buttons
+            $('#content').on('click', '.edit-button', function(){
+                var clienteId = $(this).data('id');
+                window.location.href = '/editar_cliente/' + clienteId;
+            });
+
+            $('#content').on('click', '.delete-button', function(){
+                var clienteId = $(this).data('id');
+                $.ajax({
+                    url: '/deletar_cliente/' + clienteId,
+                    type: 'DELETE',
+                    success: function(result){
+                        alert('Cliente deletado com sucesso!');
+                        $('#listarClientesLink').click(); // Refresh the list
+                    },
+                    error: function(xhr, status, error){
+                        alert('Erro ao deletar cliente: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
 </html>
