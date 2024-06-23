@@ -1,13 +1,47 @@
-# GitHub Codespaces ♥️ Flask
+README for your Flask application:
 
-Welcome to your shiny new Codespace running Flask! We've got everything fired up and running for you to explore Flask.
 
-You've got a blank canvas to work on from a git perspective as well. There's a single initial commit with the what you're seeing right now - where you go from here is up to you!
+# Lanhouse or Cybercafe forms
 
-Everything you do here is contained within this one codespace. There is no repository on GitHub yet. If and when you’re ready you can click "Publish Branch" and we’ll create your repository and push up your project. If you were just exploring then and have no further need for this code then you can simply delete your codespace and it's gone forever.
+Welcome to Lanhouse forms! This application helps manage customer information and track their purchased time in a LAN house.
 
-To run this application:
+## Features
 
+- Home page with navigation links.
+- Customer registration with name, username, password, phone, RG, and amount paid.
+- Customer listing with options to edit or delete.
+- Automatic time calculation based on payment.
+
+## Setup
+
+1. **Clone the Repository**
+
+2. **Create a Virtual Environment**
+
+   ```sh
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. **Install Dependencies**
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+4. **Run the Application**
+
+   ```sh
+   flask --debug run
+   ```
+
+5. **Access the Application**
+
+   Open your web browser and navigate to `http://localhost:5000`.
+
+---
+
+This README provides a quick overview and setup instructions for your Flask application.
 ```
 flask --debug run
 ```
